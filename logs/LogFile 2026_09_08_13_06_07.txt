@@ -1,0 +1,33 @@
+0001 [2026-09-08 13:06:07.8027]    Multithreading with maximum 4 threads
+0002 [2026-09-08 13:06:07.0608]    initValues
+0003 [2026-09-08 13:06:07.2205]    reloading settings...
+0004 [2026-09-08 13:06:07.9717]    self.threadedFunctionAExecute == 1 <class 'str'>
+0005 [2026-09-08 13:06:07.6145]    self.csvLogInterval == 1000 <class 'int'>
+0006 [2026-09-08 13:06:07.0654]    self.csvLogMaxLineCount == 5000 <class 'int'>
+0007 [2026-09-08 13:06:07.3704]    self.csvLogMaxSize == 5120 <class 'int'>
+0008 [2026-09-08 13:06:07.7240]    self.slMiniExecute == 1 <class 'str'>
+0009 [2026-09-08 13:06:07.2815]    self.slMiniIP == 192.168.50.196 <class 'str'>
+0010 [2026-09-08 13:06:07.0298]    self.dgkExecute == 1 <class 'str'>
+0011 [2026-09-08 13:06:07.1880]    self.dgkIP == 192.168.50.196 <class 'str'>
+0012 [2026-09-08 13:06:07.2493]    self.serialDeviceExecute == 0 <class 'str'>
+0013 [2026-09-08 13:06:07.7395]    self.serialDeviceCOMport == COM2 <class 'str'>
+0014 [2026-09-08 13:06:07.1626]    self.serialDeviceBaud == 38400 <class 'str'>
+0015 [2026-09-08 13:06:07.5027]    settings loaded successfully
+0016 [2026-09-08 13:06:07.8196]    self.parameterA == True <class 'bool'>
+0017 [2026-09-08 13:06:07.1100]    self.parameterB == True <class 'bool'>
+0018 [2026-09-08 13:06:07.4036]    self.parameterC == 60 <class 'int'>
+0019 [2026-09-08 13:06:07.7317]    self.parameterD == None <class 'str'>
+0020 [2026-09-08 13:06:07.0735]    self.parameterE == 34.34 <class 'str'>
+0021 [2026-09-08 13:06:07.9785]    A
+0022 [2026-09-08 13:06:07.6938]    B
+0024 [2026-09-08 13:06:07.0557]    C
+not connected to SL Mini. attempting connection
+0024 [2026-09-08 13:06:07.0557]    C
+not connected to SL Mini. attempting connection
+0025 [2026-09-08 13:06:07.5760]    not connected to DGK. attempting connection
+0026 [2026-09-08 13:06:07.5425]    testThreadedFn is on its first run, time:  1788894367.8521643
+0027 [2026-09-08 13:06:08.8928]    newFile = True (self.dgkRuns == 1)
+0028 [2026-09-08 13:06:08.6438]    newFile = True (self.slMiniRuns == 1)
+0029 [2026-09-08 13:06:08.2107]    Now logging to LOG_2026.09.08.13.06.08.csv
+0030 [2026-09-08 13:08:44.8562]    pullcord()
+0031 [2026-09-08 13:08:44.9268]    Exiting

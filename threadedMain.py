@@ -27,7 +27,7 @@ class F:
     logLine = ""
     maxLines = 9999
     logLineNo = maxLines + 1 # to force the creation of a new logfile on first run
-    logFilePath = "logs\\"
+    logFilePath = "logs//"
     logFileName = "LogFile " + time.strftime("%Y_%m_%d_%H_%M_%S") + ".txt"
     def write(self, x):
         tm = str(time.strftime('%Y-%m-%d %H:%M:%S'))
