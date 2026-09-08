@@ -1,0 +1,69 @@
+Measurement Mode:Y
+Unit:N
+Shrinkage mode:N
+High Resolation for Diameter:N
+Over average upper limit:N
+Under average lower limit:N
+Over X upper limit:N
+Under X lower limit:N
+Over Y upper limit:N
+Under Y lower limit:N
+Over Z upper limit:N
+Under Z lower limit:N
+Over ovality upper limit:N
+Under ovality lower limit:N
+Res:N
+No reading:N
+No object:N
+Window dirty:N
+Line speed too low in helix mode:N
+Line speed too high in helix mode:N
+Gauge too hot:N
+External Alarm 1:N
+External Alarm 2:N
+Average diameter/Envelop:N
+X diameter:Y
+Y diameter:Y
+Z diameter:Y
+Ovality:Y
+Average error/Envelop Error:Y
+X error:Y
+Y error:Y
+Z error:Y
+Ovality error:Y
+Latest lump value:N
+Latest lump positon:N
+Latest neck value:N
+Latest neck position:N
+Lump count:Y
+Neck count:y
+Running maximum diameter:N
+Running minimum diameter:N
+Running average diameter:N
+Cable position on X axis:N
+Cable position on Y axis:N
+Cable position on Z axis:N
+Line speed:N
+Length:N
+Statistics:N
+Normal distribution:N
+Not used:N
+SPC is available:N
+Statistics remain time:N
+Standard deviation:N
+Maximum diameter:N
+Minimum diameter:N
+Mean diameter:N
+Chi of normal distribution:N
+Cp:N
+Cpk:N
+FFT remain time:N
+Control status:N
+Control output:N
+Communication Bus Type:N
+Res:N
+IP address for ETH:N
+IP address for iBUS:N
+Sub net Mask:N
+Gateway:N
+Gauge temperature:N

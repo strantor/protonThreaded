@@ -1,0 +1,51 @@
+Averaged speed:Y
+Batch length:Y
+Batch number:N
+Case temperature too high:Y
+Case temperature too low:Y
+Communication Bus Type:N
+DW18:N
+DW19:N
+DW21:N
+DW23:N
+DW24:N
+DW25:N
+DW26:N
+DW27:N
+DW28:N
+DW29:N
+DW31:N
+Display hold:N
+Gateway for ETH:N
+Gauge OK:Y
+Gauge too hot:Y
+Good reading:Y
+Good reading status:Y
+IP address for ETH:N
+IP address for iBUS:N
+Instant speed:Y
+LIN1 status:N
+LIN2 status:N
+LIN3 status:N
+Laser Status:Y
+Laser temperature too high:Y
+Laser temperature too low:Y
+Last length before reset:Y
+Length counting direction:N
+Length hold:N
+Length reset:N
+Light reflection too strong:N
+Measured length > Preset1:N
+Measured length > Preset2:N
+Measurement Unit:N
+Measurement mode:N
+Object detected:Y
+Reel number:N
+Resolution of length output:N
+SLX current height:N
+SNR:Y
+Speed hold:N
+Speed reading valid:Y
+Speed reponse for pulse and analogue output:N
+Sub net Mask for ETH:N
+Total length:Y

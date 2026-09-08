@@ -1,0 +1,14 @@
+[threadedFunctionAExecute::1]
+[csvLogInterval::1000] milliseconds
+[csvLogMaxLineCount::5000]
+[csvLogMaxSize::5] Megabytes
+[slMiniExecute::1]
+[slMiniIP::192.168.50.196]
+[dgkExecute::1]
+[dgkIP::192.168.50.196]
+[serialDeviceExecute::0] Set to 1 to enable serial device
+[serialDeviceCOMport::COM2]threadedFunctionC
+[serialDeviceBaud::38400]
+
+
+

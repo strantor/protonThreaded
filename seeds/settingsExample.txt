@@ -1,0 +1,8 @@
+[threadedFunctionAExecute::1]
+[webExecute::1]
+[serialDeviceExecute::1] Set to 1 to enable serial device
+[serialDeviceCOMport::COM2]threadedFunctionC
+[serialDeviceBaud::38400]
+
+
+
