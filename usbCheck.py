@@ -63,6 +63,8 @@ class USBWatcher:
             self.usbMounted = True
             self.mountPoint = mount_point
         else:
+            self.usbMounted = False
+            self.mountPoint = None
             print(f"[+] Drive {dev_node} is attached but not mounted. Attempting mount...")
             if self._mount_device(dev_node):
                 mount_point = self.fallback_mount_point
