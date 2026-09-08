@@ -62,7 +62,7 @@ class USBWatcher:
             print(f"[i] Drive {dev_node} is already mounted at: {mount_point}")
             self.usbMounted = True
             partsList = mount_point.split("/")
-            nuPath = "//"
+            nuPath = "" # "//"
             for part in partsList:
                 nuPath += part + "//"
             self.mountPoint = nuPath
