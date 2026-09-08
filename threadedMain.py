@@ -196,6 +196,8 @@ class importedGUI(QtWidgets.QMainWindow, myGUI):
 
     def startThreads(self):
         self.loggingTimer.setInterval(self.csvLogInterval)
+        if self.usbExecute == "1":
+            self.usbFn_Start()
         if self.threadedFunctionAExecute == "1":
             print("A")
             self.threadedFunctionA_Start()
@@ -208,6 +210,7 @@ class importedGUI(QtWidgets.QMainWindow, myGUI):
         if self.serialDeviceExecute == "1":
             print("D")
             self.threadedFunctionC_Start()
+
 
 
     def initValues(self):
