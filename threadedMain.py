@@ -17,6 +17,7 @@ import shutil
 import protonModbus
 import csv
 from pathlib import Path
+import usbCheck
 
 
 # The following 17 new lines of code captures all print() commands and prepends a timestamp onto them
