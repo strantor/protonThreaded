@@ -493,7 +493,7 @@ class importedGUI(QtWidgets.QMainWindow, myGUI):
 
     def logicTimerFn(self):
         if self.usbReady == True:
-            self.csvLogPath = self.usbMountPoint
+            self.csvLogPath = self.usbMountPoint + "//"
         else:
             self.csvLogPath = "//home//proton//csvLogs//"
         # if self.csvLogPath == self.csvLogPathLast:
