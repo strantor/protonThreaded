@@ -271,6 +271,7 @@ class importedGUI(QtWidgets.QMainWindow, myGUI):
         self.csvLogPath = ""
         self.csvLogPathLast = ""
         self.csvLogLineCount = 0
+        self.loggingFail = True
 
         # USB function
         self.usbObject = 0
@@ -664,19 +665,28 @@ class importedGUI(QtWidgets.QMainWindow, myGUI):
         if newFile:
             self.filename = self.csvLogPath + "LOG_" + str(time.strftime('%Y.%m.%d.%H.%M.%S')) + '.csv'
             print("Now logging to",self.filename)
-            with open(self.filename, mode="w", newline="", encoding="utf-8") as file:
-                writer = csv.DictWriter(file, fieldnames=fieldnames)
-                writer.writeheader()
-                writer.writerow(self.csvLogDict)
-                self.file_size = 0
-                self.csvLogLineCount = 0
+            try:
+                with open(self.filename, mode="w", newline="", encoding="utf-8") as file:
+                    writer = csv.DictWriter(file, fieldnames=fieldnames)
+                    writer.writeheader()
+                    writer.writerow(self.csvLogDict)
+                    self.file_size = 0
+                    self.csvLogLineCount = 0
+                    self.loggingFail = False
+            except:
+                self.loggingFail = True
         else:
-            with open(self.filename, mode="a+", newline="", encoding="utf-8") as file:
-                writer = csv.DictWriter(file, fieldnames=fieldnames)
-                writer.writerow(self.csvLogDict)
-                self.file_size = Path(self.filename).stat().st_size / 1024
-                file.seek(0) #go to beginning of file so we can count the lines
-                self.csvLogLineCount = sum(1 for line in file)
+            try:
+                with open(self.filename, mode="a+", newline="", encoding="utf-8") as file:
+                    writer = csv.DictWriter(file, fieldnames=fieldnames)
+                    writer.writerow(self.csvLogDict)
+                    self.file_size = Path(self.filename).stat().st_size / 1024
+                    file.seek(0) #go to beginning of file so we can count the lines
+                    self.csvLogLineCount = sum(1 for line in file)
+                    self.loggingFail = False
+            except:
+                self.loggingFail = True
+
         #print(time.time() - timestamp1, self.file_size, self.filename,self.csvLogLineCount)
 
 
@@ -685,7 +695,7 @@ class importedGUI(QtWidgets.QMainWindow, myGUI):
 
     def usbFn_Start(self):
         if self.usbExecute == "1":
-            if self.usbReady == False:
+            if (self.usbReady == False) or (self.loggingFail == True):
                 self.lbl_usbReady.setText("USB Thumb drive ready?: NO")
                 self.lbl_usbReady.setStyleSheet('background-color : red')
                 self.lbl_logLoc.setText("CSV Log Location: "+self.filename)
