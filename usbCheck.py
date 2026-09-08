@@ -59,7 +59,7 @@ class USBWatcher:
         temp_mounted = False
 
         if mount_point:
-            print(f"[i] Drive {dev_node} is already mounted at: {mount_point}")
+            #print(f"[i] Drive {dev_node} is already mounted at: {mount_point}")
             self.usbMounted = True
             partsList = mount_point.split("/")
             nuPath = "" # "//"
@@ -77,7 +77,7 @@ class USBWatcher:
                 return
 
         # Read contents
-        self.list_contents(mount_point)
+        #self.list_contents(mount_point)
 
         # Cleanup if we mounted it manually
         if temp_mounted:
@@ -85,17 +85,17 @@ class USBWatcher:
 
     def check_existing_drives(self):
         """Scans for USB drives already connected at startup."""
-        print("Checking for existing connected USB drives...")
+        #print("Checking for existing connected USB drives...")
         found = False
         for device in self.context.list_devices(subsystem='block'):
             if device.get('ID_BUS') == 'usb':
                 found = True
                 dev_node = device.device_node
-                print(f"\n[+] Existing USB Partition Found: {dev_node}")
+                #print(f"\n[+] Existing USB Partition Found: {dev_node}")
                 self.process_usb_partition(dev_node)
 
-        if not found:
-            print("No connected USB drives found on startup.")
+        #if not found:
+            #print("No connected USB drives found on startup.")
 
     def start_listening(self):
         """Checks initial state, then watches for real-time insertions."""
