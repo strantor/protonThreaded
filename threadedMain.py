@@ -698,10 +698,10 @@ class importedGUI(QtWidgets.QMainWindow, myGUI):
             if (self.usbReady == False) or (self.loggingFail == True):
                 self.lbl_usbReady.setText("USB Thumb drive ready?: NO")
                 self.lbl_usbReady.setStyleSheet('background-color : red')
-                self.lbl_logLoc.setText("CSV Log Location: "+self.filename)
             else:
                 self.lbl_usbReady.setText("USB Thumb drive ready?: YES")
                 self.lbl_usbReady.setStyleSheet('background-color : green')
+            self.lbl_logLoc.setText("CSV Log Location: " + self.filename)
             usbFnInputData = [self.usbReady,
                               self.usbObject,
                               self.usbHasRan]
