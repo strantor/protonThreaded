@@ -760,7 +760,7 @@ class importedGUI(QtWidgets.QMainWindow, myGUI):
             myNeo = neo.ioController()
             outputData.emit(["neoHasRan", True])
         else:
-            print("subsequent neo run")
+            #print("subsequent neo run")
             myNeo = neoObject
         myNeo.setLED1color(led1Color)
         myNeo.setLED2color(led2Color)
