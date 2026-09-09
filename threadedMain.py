@@ -18,6 +18,7 @@ import protonModbus
 import csv
 from pathlib import Path
 import usbCheck
+import neo
 
 
 # The following 17 new lines of code captures all print() commands and prepends a timestamp onto them
@@ -208,8 +209,11 @@ class importedGUI(QtWidgets.QMainWindow, myGUI):
         if self.dgkExecute == "1":
             print("C")
             self.dgkFn_Start()
-        if self.serialDeviceExecute == "1":
+        if self.neoExecute == "1":
             print("D")
+            self.neoFn_Start()
+        if self.serialDeviceExecute == "1":
+            print("E")
             self.threadedFunctionC_Start()
 
 
@@ -280,6 +284,17 @@ class importedGUI(QtWidgets.QMainWindow, myGUI):
         self.usbRuns = 0
         self.usbMountPoint = None
         self.usbHasRan = False
+
+        # Neopixel LED function
+        self.neoObject = 0
+        self.neoReady = False
+        self.neoHasRan = False
+        self.lineRunning = False
+        self.led1Color = (0, 0, 0)
+        self.led2Color = (0, 0, 0)
+        self.blinkTime = time.time() + 0.5
+        self.blink = True
+
 
 
         # logic/other
@@ -689,6 +704,87 @@ class importedGUI(QtWidgets.QMainWindow, myGUI):
 
         #print(time.time() - timestamp1, self.file_size, self.filename,self.csvLogLineCount)
 
+
+
+
+    def neoFn_Start(self):
+        if self.neoExecute == "1":
+            if self.lineRunning == False:
+                self.lbl_lineRunning.setText("Line Running?: NO")
+                self.lbl_lineRunning.setStyleSheet('background-color : red')
+            else:
+                self.lbl_lineRunning.setText("Line Running?: YES")
+                self.lbl_lineRunning.setStyleSheet('background-color : green')
+
+            if time.time() > self.blinkTime:
+                if self.blink:
+                    self.blink = False
+                else:
+                    self.blink = True
+                self.blinkTime = time.time() + 0.5
+            if self.blink:
+                if self.lineRunning:
+                    # myIo.setLEDcolor((200, 200, 0)) #green
+                    # myIo.setLEDcolor((52, 55, 235)) #dark blue
+                    # myIo.setLEDcolor((0,0,255)) #blue
+                    self.led1Color = (255, 255, 0)  # yellow
+                    self.led2Color = (0, 255, 0)  # green
+                else:
+                    self.led1Color = (50, 70, 215)  # light blue
+                    self.led2Color = (255, 0, 0)  # red
+            else:
+                self.led1Color = (0, 0, 0)
+                self.led2Color = (0, 0, 0)
+
+            #if self.usbReady:
+
+            neoFnInputData = [self.neoObject,
+                              self.neoHasRan,
+                              self.led1Color,
+                              self.led2Color]
+            worker = Worker(self.neoFn, neoFnInputData)  # Any other args, kwargs are passed to the run function
+            worker.signals.outputData.connect(self.neoFn_HandleOutputs)
+            worker.signals.result.connect(self.neoFn_Result)
+            worker.signals.finished.connect(self.neoFn_Finished)
+            worker.signals.error.connect(self.neoFn_Error)
+            self.threadpool.start(worker)
+
+    def neoFn(self, inputData, outputData):
+        neoObject = inputData[0]
+        neoHasRan = inputData[1]
+        led1Color = inputData[2]
+        led2Color = inputData[3]
+
+        if neoHasRan == False:
+            print("Instantiating Neo")
+            myNeo = neo.ioController()
+            outputData.emit(["neoHasRan", True])
+        else:
+            print("subsequent neo run")
+            myNeo = neoObject
+        myNeo.setLED1color(led1Color)
+        myNeo.setLED2color(led2Color)
+        outputData.emit(["lineRunning", myNeo.lineRunning.is_pressed])
+        outputData.emit(["neoObject", myNeo])
+
+    def neoFn_Result(self, s):
+        pass
+
+    def neoFn_Finished(self):
+        self.neoFn_Start()
+
+    def neoFn_HandleOutputs(self, n):
+        if n[0] == "neoObject":
+            self.neoObject = n[1]
+        elif n[0] == "neoHasRan":
+            self.neoHasRan = n[1]
+        elif n[0] == "lineRunning":
+            self.lineRunning = n[1]
+
+    def neoFn_Error(self, error):
+        # Reset everything on error
+        self.neoReady = False
+        print("Error in neoFn!:", error)
 
 
 

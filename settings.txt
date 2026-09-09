@@ -7,6 +7,7 @@
 [dgkExecute::1]
 [dgkIP::192.168.50.196]
 [usbExecute::1]
+[neoExecute::1]
 [serialDeviceExecute::0] Set to 1 to enable serial device
 [serialDeviceCOMport::COM2]threadedFunctionC
 [serialDeviceBaud::38400]
