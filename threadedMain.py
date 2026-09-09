@@ -733,14 +733,18 @@ class importedGUI(QtWidgets.QMainWindow, myGUI):
             #       3. update lbl_currentlyLogging when line running
             #       4. start script automatically on boot
             #       DONE 5. fix csv timestamp to be column #1
-
-
+            led1Red = False
+            led1Yellow = False
+            led1Green = False
+            led2Red = False
+            led2Yellow = False
+            led2Blue = False
+            led2Green = False
+            led2Orange = False
 
             if self.blink:
                 # LED 1 indicates the status of hardware and readiness to log
-                led1Red = False
-                led1Yellow = False
-                led1Green = False
+
                 if not self.connectedToDgk: led1Red = True
                 if not self.connectedToSlMini: led1Red = True
                 if not led1Red:
@@ -753,11 +757,7 @@ class importedGUI(QtWidgets.QMainWindow, myGUI):
                 else: self.led1Color = (0, 0, 0)  # off
 
                 # LED 2 indicates the status of logging
-                led2Red = False
-                led2Yellow = False
-                led2Blue = False
-                led2Green = False
-                led2Orange = False
+
                 if self.loggingFail: led2Red = True
                 if not led2Red:
                     if not self.usbReady:
