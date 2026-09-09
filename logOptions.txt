@@ -49,3 +49,4 @@ Speed reading valid:Y
 Speed reponse for pulse and analogue output:N
 Sub net Mask for ETH:N
 Total length:Y
+deviceHealth:Y

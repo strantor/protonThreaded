@@ -265,11 +265,15 @@ class importedGUI(QtWidgets.QMainWindow, myGUI):
         self.deviceDataDict = {}
         self.slMiniRuns = 0
 
+        self.slMiniHealth = 100
+
         # DGK (laser micrometer) function
         self.dgkRuns = 0
         self.connectedToDgk = False
         self.dgkObject = 0
         self.lastDgkCall = 0
+        self.dgkHealth = 100
+
         self.file_size = 0
         self.filename = "LOG_" + str(time.strftime('%Y.%m.%d.%H.%M.%S')) + '.csv'
         self.csvLogPath = ""
@@ -510,15 +514,17 @@ class importedGUI(QtWidgets.QMainWindow, myGUI):
 
 
     def logicTimerFn(self):
-        if self.usbReady == True:
-            self.csvLogPath = self.usbMountPoint
-        else:
-            self.csvLogPath = "//home//proton//csvLogs//"
         # if self.csvLogPath == self.csvLogPathLast:
         #     print("self.csvLogPath = None")
         # Establish logical conditions for operation
         # Only instant operations here (logic state changes, label text changes, etc.), no timed operations or threaded
         # operations, or operations that take time, because this function is called on a timer every 100mS
+        if self.usbReady == True:
+            self.csvLogPath = self.usbMountPoint
+        else:
+            self.csvLogPath = "//home//proton//csvLogs//"
+
+
         vars2save = {}
         try:
             vars2save["parameterA"] = self.parameterA
@@ -650,16 +656,13 @@ class importedGUI(QtWidgets.QMainWindow, myGUI):
     def loggingTimerFn(self):
         self.counter += 1
         timestamp1 = time.time()
-        self.csvLogDict['timestamp'] = str(time.strftime('%Y-%m-%d %H:%M:%S'))
+        newDict = {}
+        newDict["timestamp"] = str(time.strftime('%Y-%m-%d %H:%M:%S'))
+        for key, val in self.csvLogDict.items():
+            newDict[key] = val
+        self.csvLogDict = newDict
         fieldnames = self.csvLogDict.keys()
 
-        #print(fieldnames)
-
-        # if ((self.file_size > self.csvLogMaxSize) or\
-        #         (self.dgkRuns == 0) or\
-        #         (self.slMiniRuns == 0) or\
-        #         (self.csvLogLineCount > self.csvLogMaxLineCount)):
-        #     print("gothere")
         newFile = False
         if (self.csvLogPath != self.csvLogPathLast):
             print("(self.csvLogPath != self.csvLogPathLast)")
@@ -691,16 +694,17 @@ class importedGUI(QtWidgets.QMainWindow, myGUI):
             except:
                 self.loggingFail = True
         else:
-            try:
-                with open(self.filename, mode="a+", newline="", encoding="utf-8") as file:
-                    writer = csv.DictWriter(file, fieldnames=fieldnames)
-                    writer.writerow(self.csvLogDict)
-                    self.file_size = Path(self.filename).stat().st_size / 1024
-                    file.seek(0) #go to beginning of file so we can count the lines
-                    self.csvLogLineCount = sum(1 for line in file)
-                    self.loggingFail = False
-            except:
-                self.loggingFail = True
+            if self.lineRunning:
+                try:
+                    with open(self.filename, mode="a+", newline="", encoding="utf-8") as file:
+                        writer = csv.DictWriter(file, fieldnames=fieldnames)
+                        writer.writerow(self.csvLogDict)
+                        self.file_size = Path(self.filename).stat().st_size / 1024
+                        file.seek(0) #go to beginning of file so we can count the lines
+                        self.csvLogLineCount = sum(1 for line in file)
+                        self.loggingFail = False
+                except:
+                    self.loggingFail = True
 
         #print(time.time() - timestamp1, self.file_size, self.filename,self.csvLogLineCount)
 
@@ -724,28 +728,65 @@ class importedGUI(QtWidgets.QMainWindow, myGUI):
                 self.blinkTime = time.time() + 0.5
 
             # TODO: 0. print solid critter wheels
-            #       1. logic for deciding colored lights
-            #       2. record to CSV only when line running
+            #       DONE 1. logic for deciding colored lights (self.protonConnected)
+            #       DONE 2. record to CSV only when line running
             #       3. update lbl_currentlyLogging when line running
             #       4. start script automatically on boot
+            #       DONE 5. fix csv timestamp to be column #1
+
 
 
             if self.blink:
-                if self.lineRunning:
-                    # myIo.setLEDcolor((200, 200, 0)) #green
-                    # myIo.setLEDcolor((52, 55, 235)) #dark blue
-                    # myIo.setLEDcolor((0,0,255)) #blue
-                    if self.usbReady:
-                        self.led1Color = (0, 255, 0)  # green
+                # LED 1 indicates the status of hardware and readiness to log
+                led1Red = False
+                led1Yellow = False
+                led1Green = False
+                if not self.connectedToDgk: led1Red = True
+                if not self.connectedToSlMini: led1Red = True
+                if not led1Red:
+                    if self.dgkHealth > 0: led1Yellow = True
+                    if self.slMiniHealth > 0: led1Yellow = True
+                    if not led1Yellow: led1Green = True
+                if led1Red: self.led1Color = (255, 0, 0)  # red
+                elif led1Yellow: self.led1Color = (255, 255, 0)  # yellow
+                elif led1Green: self.led1Color = (0, 255, 0)  # green
+                else: self.led1Color = (0, 0, 0)  # off
+
+                # LED 2 indicates the status of logging
+                led2Red = False
+                led2Yellow = False
+                led2Blue = False
+                led2Green = False
+                led2Orange = False
+                if self.loggingFail: led2Red = True
+                if not led2Red:
+                    if not self.usbReady:
+                        if self.lineRunning: led2Blue = True
+                        else: led2Orange = True
                     else:
-                        self.led1Color = (255, 255, 0)  # yellow
-                    self.led2Color = (0, 255, 0)  # green
-                else:
-                    self.led1Color = (50, 70, 215)  # light blue
-                    self.led2Color = (255, 0, 0)  # red
+                        if not self.lineRunning: led2Yellow = True
+                        else: led2Green = True
+                if led2Red: self.led2Color = (255, 0, 0)  # red
+                elif led2Yellow: self.led2Color = (255, 255, 0)  # yellow
+                elif led2Blue: self.led2Color = (0, 0, 255)         # blue
+                elif led2Orange: self.led2Color = (255,165,0)   # orange
+                elif led2Green: self.led2Color = (0, 255, 0)  # green
+                else: self.led2Color = (0, 0, 0)  # off
+                # (200, 200, 0)     # green
+                # (255, 0, 0)       # red
+                # (255, 255, 0)     # yellow
+                # (52, 55, 235)     # dark blue
+                # (0,0,255)         # blue
+                # (50, 70, 215)     # light blue
             else:
                 self.led1Color = (0, 0, 0)
                 self.led2Color = (0, 0, 0)
+            if (self.lineRunning == True) and (led2Red == False):
+                self.lbl_currentlyLogging.setText("Currently Logging Data?: YES")
+                self.lbl_currentlyLogging.setStyleSheet('background-color : red')
+            else:
+                self.lbl_currentlyLogging.setText("Currently Logging Data?: NO")
+                self.lbl_currentlyLogging.setStyleSheet('background-color : green')
 
             #if self.usbReady:
 
@@ -923,6 +964,7 @@ class importedGUI(QtWidgets.QMainWindow, myGUI):
                 mySlMini.start()
                 mySlMini.parseSlMiniOutput()
                 outputData.emit(["result", mySlMini.logDict])
+                outputData.emit(["deviceHealth", mySlMini.slMiniDict['deviceHealth']])
                 outputData.emit(["wholeDict", [mySlMini.slMiniDict,mySlMini.slMiniLogOptions]])
                 outputData.emit(["slMiniObject", mySlMini])
                 outputData.emit(["connectedToSlMini", 1])
@@ -934,6 +976,7 @@ class importedGUI(QtWidgets.QMainWindow, myGUI):
                 mySlMini = slMiniObject
                 mySlMini.parseSlMiniOutput()
                 outputData.emit(["result", mySlMini.logDict])
+                outputData.emit(["deviceHealth", mySlMini.slMiniDict['deviceHealth']])
                 outputData.emit(["wholeDict", [mySlMini.slMiniDict,mySlMini.slMiniLogOptions]])
                 outputData.emit(["slMiniObject", mySlMini])
                 lastSlMiniCall = time.time() + (csvLogInterval/1000)
@@ -955,6 +998,8 @@ class importedGUI(QtWidgets.QMainWindow, myGUI):
             self.connectedToSlMini = n[1]
         elif n[0] == "slMiniObject":
             self.slMiniObject = n[1]
+        elif n[0] == "deviceHealth":
+            self.slMiniHealth = n[1]
         elif n[0] == "lastSlMiniCall":
             self.lastSlMiniCall = n[1]
         elif n[0] == "result":
@@ -1072,6 +1117,7 @@ class importedGUI(QtWidgets.QMainWindow, myGUI):
                 myDgk.start()
                 myDgk.parseDgkOutput()
                 outputData.emit(["result", myDgk.logDict])
+                outputData.emit(["deviceHealth", myDgk.dgkDict['deviceHealth']])
                 outputData.emit(["wholeDict", [myDgk.dgkDict, myDgk.dgkLogOptions]])
                 outputData.emit(["dgkObject", myDgk])
                 outputData.emit(["connectedToDgk", 1])
@@ -1083,6 +1129,7 @@ class importedGUI(QtWidgets.QMainWindow, myGUI):
                 myDgk = dgkObject
                 myDgk.parseDgkOutput()
                 outputData.emit(["result", myDgk.logDict])
+                outputData.emit(["deviceHealth", myDgk.dgkDict['deviceHealth']])
                 outputData.emit(["wholeDict", [myDgk.dgkDict, myDgk.dgkLogOptions]])
                 outputData.emit(["dgkObject", myDgk])
                 lastDgkCall = time.time() + (csvLogInterval/1000)
@@ -1104,6 +1151,8 @@ class importedGUI(QtWidgets.QMainWindow, myGUI):
             self.connectedToDgk = n[1]
         elif n[0] == "dgkObject":
             self.dgkObject = n[1]
+        elif n[0] == "deviceHealth":
+            self.dgkHealth = n[1]
         elif n[0] == "lastDgkCall":
             self.lastDgkCall = n[1]
         elif n[0] == "result":

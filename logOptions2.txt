@@ -67,3 +67,4 @@ IP address for iBUS:N
 Sub net Mask:N
 Gateway:N
 Gauge temperature:N
+deviceHealth:Y

@@ -1,6 +1,6 @@
 [threadedFunctionAExecute::1]
 [csvLogInterval::1000] milliseconds
-[csvLogMaxLineCount::5000]
+[csvLogMaxLineCount::10000]
 [csvLogMaxSize::5] Megabytes
 [slMiniExecute::1]
 [slMiniIP::192.168.50.196]

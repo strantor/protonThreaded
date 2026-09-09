@@ -148,6 +148,7 @@ class protonModbus():
         err = 0
         self.wordsInLength = 73
         if self.readInputRegisters() == True:
+            deviceHealth = 0
             # DW0
             self.dgkDict['Measurement Mode'] = (self.wordsIn[0] >> 0) & 0b111
             self.dgkDict['Unit'] = (self.wordsIn[0] >> 3) & 1
@@ -173,7 +174,7 @@ class protonModbus():
             self.dgkDict['Gauge too hot'] = (self.wordsIn[1] >> 6) & 1
             self.dgkDict['External Alarm 1'] = (self.wordsIn[1] >> 8) & 1
             self.dgkDict['External Alarm 2'] = (self.wordsIn[1] >> 9) & 1
-
+            if self.wordsIn[1] > 0: deviceHealth += 1
             self.dgkDict['Average diameter/Envelop'] = ((self.wordsIn[3] << 16) | self.wordsIn[2]) / 100
             self.dgkDict['X diameter'] = ((self.wordsIn[5] << 16) | self.wordsIn[4]) / 100
             self.dgkDict['Y diameter'] = ((self.wordsIn[7] << 16) | self.wordsIn[6]) / 100
@@ -211,6 +212,7 @@ class protonModbus():
             self.dgkDict['Cpk'] = self.wordsIn[56]
             self.dgkDict['FFT remain time'] = self.wordsIn[57]
             self.dgkDict['Control status'] = self.wordsIn[58]
+            if self.wordsIn[58] not in [1,3]: deviceHealth += 1
             self.dgkDict['Control output'] = self.wordsIn[59] / 100
             self.dgkDict['Communication Bus Type'] = self.wordsIn[62]
             self.dgkDict['Res'] = self.wordsIn[63]
@@ -235,7 +237,9 @@ class protonModbus():
             myStr += str((self.wordsIn[70] & 0x00FF))
             self.dgkDict['Gateway'] = myStr
             self.dgkDict['Gauge temperature'] = self.wordsIn[72]
+            if self.wordsIn[72]>80: deviceHealth += 1
             # pprint.pprint(self.dgkDict)
+            self.dgkDict['deviceHealth'] = deviceHealth
             for k, v in self.dgkDict.items():
                 if k in self.dgkLogOptions:
                     self.logDict[k] = self.dgkDict[k]
@@ -243,6 +247,7 @@ class protonModbus():
     def parseSlMiniOutput(self):
         err = 0
         self.wordsInLength = 40
+        deviceHealth = 0
         if self.readInputRegisters() == True:
             # DW0
             self.slMiniDict['Measurement mode'] = (self.wordsIn[0] >> 0) & 1
@@ -251,9 +256,13 @@ class protonModbus():
             self.slMiniDict['Measured length > Preset1'] = (self.wordsIn[0] >> 8) & 1
             self.slMiniDict['Measured length > Preset2'] = (self.wordsIn[0] >> 9) & 1
             self.slMiniDict['Laser Status'] = (self.wordsIn[0] >> 11) & 1
+            if self.slMiniDict['Laser Status'] !=1: deviceHealth +=1
             self.slMiniDict['Speed reading valid'] = (self.wordsIn[0] >> 12) & 1
+            if self.slMiniDict['Speed reading valid'] != 1: deviceHealth += 1
             self.slMiniDict['Object detected'] = (self.wordsIn[0] >> 13) & 1
+            if self.slMiniDict['Object detected'] != 1: deviceHealth += 1
             self.slMiniDict['Good reading status'] = (self.wordsIn[0] >> 14) & 1
+            if self.slMiniDict['Good reading status'] != 0: deviceHealth += 1
             # DW1
             self.slMiniDict['Gauge OK'] = (self.wordsIn[1] >> 0) & 1
             self.slMiniDict['Laser temperature too high'] = (self.wordsIn[1] >> 1) & 1
@@ -262,7 +271,7 @@ class protonModbus():
             self.slMiniDict['Case temperature too low'] = (self.wordsIn[1] >> 4) & 1
             self.slMiniDict['Light reflection too strong'] = (self.wordsIn[1] >> 5) & 1
             self.slMiniDict['Gauge too hot'] = (self.wordsIn[1] >> 6) & 1
-
+            if self.wordsIn[1] != 1: deviceHealth += 1
             self.slMiniDict['Averaged speed'] = ((self.wordsIn[3] << 16) | self.wordsIn[2]) / 1000  # DW2+3
             self.slMiniDict['Instant speed'] = ((self.wordsIn[5] << 16) | self.wordsIn[4]) / 1000  # DW4+5
             self.slMiniDict['Total length'] = ((self.wordsIn[7] << 16) | self.wordsIn[6]) / 10000  # DW6+7
@@ -281,9 +290,13 @@ class protonModbus():
             self.slMiniDict['LIN2 status'] = (self.wordsIn[20] >> 1) & 1
             self.slMiniDict['LIN3 status'] = (self.wordsIn[20] >> 2) & 1
             self.slMiniDict['Length reset'] = (self.wordsIn[20] >> 4) & 1
+            if self.slMiniDict['Length reset'] != 0: deviceHealth += 1
             self.slMiniDict['Length hold'] = (self.wordsIn[20] >> 5) & 1
+            if self.slMiniDict['Length hold'] != 0: deviceHealth += 1
             self.slMiniDict['Display hold'] = (self.wordsIn[20] >> 6) & 1
+            if self.slMiniDict['Display hold'] != 0: deviceHealth += 1
             self.slMiniDict['Speed hold'] = (self.wordsIn[20] >> 7) & 1
+            if self.slMiniDict['Speed hold'] != 0: deviceHealth += 1
             self.slMiniDict['Length counting direction'] = (self.wordsIn[20] >> 10) & 1
 
             self.slMiniDict['DW21'] = self.wordsIn[21]
@@ -321,6 +334,7 @@ class protonModbus():
             for k, v in self.slMiniDict.items():
                 if k in self.slMiniLogOptions:
                     self.logDict[k] = self.slMiniDict[k]
+            self.slMiniDict['deviceHealth'] = deviceHealth
 
 
 if __name__ == "__main__":
