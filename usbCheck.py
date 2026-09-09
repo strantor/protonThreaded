@@ -94,7 +94,8 @@ class USBWatcher:
                 #print(f"\n[+] Existing USB Partition Found: {dev_node}")
                 self.process_usb_partition(dev_node)
 
-        #if not found:
+        if not found:
+            self.usbMounted = False
             #print("No connected USB drives found on startup.")
 
     def start_listening(self):
