@@ -722,12 +722,23 @@ class importedGUI(QtWidgets.QMainWindow, myGUI):
                 else:
                     self.blink = True
                 self.blinkTime = time.time() + 0.5
+
+            # TODO: 0. print solid critter wheels
+            #       1. logic for deciding colored lights
+            #       2. record to CSV only when line running
+            #       3. update lbl_currentlyLogging when line running
+            #       4. start script automatically on boot
+
+
             if self.blink:
                 if self.lineRunning:
                     # myIo.setLEDcolor((200, 200, 0)) #green
                     # myIo.setLEDcolor((52, 55, 235)) #dark blue
                     # myIo.setLEDcolor((0,0,255)) #blue
-                    self.led1Color = (255, 255, 0)  # yellow
+                    if self.usbReady:
+                        self.led1Color = (0, 255, 0)  # green
+                    else:
+                        self.led1Color = (255, 255, 0)  # yellow
                     self.led2Color = (0, 255, 0)  # green
                 else:
                     self.led1Color = (50, 70, 215)  # light blue
