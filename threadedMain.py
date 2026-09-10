@@ -525,16 +525,16 @@ class importedGUI(QtWidgets.QMainWindow, myGUI):
             self.csvLogPath = "//home//proton//csvLogs//"
 
 
-        vars2save = {}
-        try:
-            vars2save["parameterA"] = self.parameterA
-            vars2save["parameterB"] = self.parameterB
-            vars2save["parameterC"] = self.parameterC
-            vars2save["parameterD"] = self.parameterD
-            vars2save["parameterE"] = self.parameterE
-        except Exception as e:
-            print(e)
-        self.saveMultiToContainter(vars2save)
+        # vars2save = {}
+        # try:
+        #     vars2save["parameterA"] = self.parameterA
+        #     vars2save["parameterB"] = self.parameterB
+        #     vars2save["parameterC"] = self.parameterC
+        #     vars2save["parameterD"] = self.parameterD
+        #     vars2save["parameterE"] = self.parameterE
+        # except Exception as e:
+        #     print(e)
+        # self.saveMultiToContainter(vars2save)
 
 
 

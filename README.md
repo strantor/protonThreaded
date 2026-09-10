@@ -21,4 +21,5 @@ git push origin master
 git pull origin master
 
 
+source /home/proton/protonThreaded/venv/bin/activate
 echo "crouton" | sudo -S /home/proton/protonThreaded/venv/bin/python3 /home/proton/protonThreaded/threadedMain.py
