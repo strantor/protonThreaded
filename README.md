@@ -23,3 +23,47 @@ git pull origin master
 
 source /home/proton/protonThreaded/venv/bin/activate
 echo "crouton" | sudo -S /home/proton/protonThreaded/venv/bin/python3 /home/proton/protonThreaded/threadedMain.py
+
+
+sudo mousepad /etc/systemd/system/protonLogger.service
+
+[Unit]
+Description=Datalogger for Proton Laser devices
+After=network.target
+
+[Service]
+ExecStart=/home/proton/protonThreaded/venv/bin/python3 /home/proton/protonThreaded/threadedMain.py
+WorkingDirectory=/home/proton
+StandardOutput=inherit
+StandardError=inherit
+Restart=always
+User=proton
+Environment=WAYLAND_DISPLAY=wayland-1
+Environment=XDG_RUNTIME_DIR=/run/user/1000
+
+[Install]
+WantedBy=multi-user.target
+
+[Unit]
+Description=Datalogger for Proton Laser devices
+After=network.target graphical.target
+
+[Service]
+ExecStart=/home/proton/protonThreaded/venv/bin/python3 /home/proton/protonThreaded/threadedMain.py
+WorkingDirectory=/home/proton
+StandardOutput=inherit
+StandardError=inherit
+Restart=always
+User=proton
+Environment=DISPLAY=:0
+Environment=XAUTHORITY=/home/proton/.Xauthority
+Environment=WAYLAND_DISPLAY=wayland-1
+Environment=XDG_RUNTIME_DIR=/run/user/1000
+
+[Install]
+WantedBy=graphical.target
+
+
+sudo mousepad ~/.bashrc
+add: "xhost +local:" 
+

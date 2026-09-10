@@ -29,7 +29,7 @@ class F:
     logLine = ""
     maxLines = 9999
     logLineNo = maxLines + 1 # to force the creation of a new logfile on first run
-    logFilePath = "logs//"
+    logFilePath = "//home//proton//protonThreaded//logs//"
     logFileName = "LogFile " + time.strftime("%Y_%m_%d_%H_%M_%S") + ".txt"
     def write(self, x):
         tm = str(time.strftime('%Y-%m-%d %H:%M:%S'))
@@ -740,7 +740,7 @@ class importedGUI(QtWidgets.QMainWindow, myGUI):
             led2Yellow = False
             led2Blue = False
             led2Green = False
-            led2Orange = False
+            led2Magenta = False
 
             if self.blink:
                 # LED 1 indicates the status of hardware and readiness to log
@@ -762,15 +762,15 @@ class importedGUI(QtWidgets.QMainWindow, myGUI):
                 if not led2Red:
                     if not self.usbReady:
                         if self.lineRunning: led2Blue = True
-                        else: led2Orange = True
+                        else: led2Magenta = True
                     else:
                         if not self.lineRunning: led2Yellow = True
                         else: led2Green = True
                 if led2Red: self.led2Color = (255, 0, 0)  # red
                 elif led2Yellow: self.led2Color = (255, 255, 0)  # yellow
                 elif led2Blue: self.led2Color = (0, 0, 255)         # blue
-                #elif led2Orange: self.led2Color = (255,165,0)   # orange
-                elif led2Orange: self.led2Color = (255, 0, 255)  # purple
+                #elif led2Magenta: self.led2Color = (255,165,0)   # orange
+                elif led2Magenta: self.led2Color = (255, 0, 255)  # purple
                 elif led2Green: self.led2Color = (0, 255, 0)  # green
                 else: self.led2Color = (0, 0, 0)  # off
                 # (200, 200, 0)     # green
