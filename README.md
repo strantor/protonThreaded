@@ -66,4 +66,9 @@ WantedBy=graphical.target
 
 sudo mousepad ~/.bashrc
 add: "xhost +local:" 
+sudo chmod 0700 /run/user/1000
+
+
+sudo systemctl daemon-reload
+sudo systemctl start protonLogger.service
 

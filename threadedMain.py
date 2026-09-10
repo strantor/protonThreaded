@@ -388,7 +388,7 @@ class importedGUI(QtWidgets.QMainWindow, myGUI):
         try:
             print("reloading settings...")
             # Import settings from settings File
-            settingsFile = open('settings.txt','r')
+            settingsFile = open('//home//proton//protonThreaded//settings.txt','r')
             for line in settingsFile:
                 if ':' in line:
                     parameter,value = line.split('::')

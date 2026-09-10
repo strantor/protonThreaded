@@ -44,14 +44,14 @@ class protonModbus():
         self.slMiniLogOptions = []
         self.runs = 0
         self.errors = 0
-        with open("logOptions.txt", "r") as restText:
+        with open("//home//proton//protonThreaded//logOptions.txt", "r") as restText:
             for line in restText.readlines():
                 L, R = line.split(":")
                 R = R.strip()
                 if R in ["yes", "true", "1", "y", "Y", "True", "TRUE", "t", "T", "Yes"]:
                     self.slMiniLogOptions.append(L)
         self.dgkLogOptions = []
-        with open("logOptions2.txt", "r") as restText:
+        with open("//home//proton//protonThreaded//logOptions2.txt", "r") as restText:
             for line in restText.readlines():
                 L, R = line.split(":")
                 R = R.strip()
