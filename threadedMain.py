@@ -769,7 +769,8 @@ class importedGUI(QtWidgets.QMainWindow, myGUI):
                 if led2Red: self.led2Color = (255, 0, 0)  # red
                 elif led2Yellow: self.led2Color = (255, 255, 0)  # yellow
                 elif led2Blue: self.led2Color = (0, 0, 255)         # blue
-                elif led2Orange: self.led2Color = (255,165,0)   # orange
+                #elif led2Orange: self.led2Color = (255,165,0)   # orange
+                elif led2Orange: self.led2Color = (255, 0, 255)  # purple
                 elif led2Green: self.led2Color = (0, 255, 0)  # green
                 else: self.led2Color = (0, 0, 0)  # off
                 # (200, 200, 0)     # green
