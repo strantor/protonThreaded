@@ -783,10 +783,10 @@ class importedGUI(QtWidgets.QMainWindow, myGUI):
                 self.led2Color = (0, 0, 0)
             if (self.lineRunning == True) and (led2Red == False):
                 self.lbl_currentlyLogging.setText("Currently Logging Data?: YES")
-                self.lbl_currentlyLogging.setStyleSheet('background-color : red')
+                self.lbl_currentlyLogging.setStyleSheet('background-color : green')
             else:
                 self.lbl_currentlyLogging.setText("Currently Logging Data?: NO")
-                self.lbl_currentlyLogging.setStyleSheet('background-color : green')
+                self.lbl_currentlyLogging.setStyleSheet('background-color : red')
 
             #if self.usbReady:
 
