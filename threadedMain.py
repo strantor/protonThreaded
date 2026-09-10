@@ -190,7 +190,7 @@ class importedGUI(QtWidgets.QMainWindow, myGUI):
         self.scriptPreviouslyRan = False
         self.initValues()
         self.loadSettings()
-        self.loadContainer()
+        #self.loadContainer()
         self.startThreads()
         self.scriptPreviouslyRan = True
         #self.pb_Exit.clicked.connect(self.close)
