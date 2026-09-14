@@ -752,7 +752,7 @@ class importedGUI(QtWidgets.QMainWindow, myGUI):
                     if self.slMiniHealth > 0: led1Yellow = True
                     if not led1Yellow: led1Green = True
                 if led1Red: self.led1Color = (255, 0, 0)  # red
-                elif led1Yellow: self.led1Color = (255, 255, 0)  # yellow
+                elif led1Yellow: self.led1Color = (255, 150, 0)  # yellow
                 elif led1Green: self.led1Color = (0, 255, 0)  # green
                 else: self.led1Color = (0, 0, 0)  # off
 
@@ -767,7 +767,7 @@ class importedGUI(QtWidgets.QMainWindow, myGUI):
                         if not self.lineRunning: led2Yellow = True
                         else: led2Green = True
                 if led2Red: self.led2Color = (255, 0, 0)  # red
-                elif led2Yellow: self.led2Color = (255, 255, 0)  # yellow
+                elif led2Yellow: self.led2Color = (255, 150, 0)  # yellow
                 elif led2Blue: self.led2Color = (0, 0, 255)         # blue
                 #elif led2Magenta: self.led2Color = (255,165,0)   # orange
                 elif led2Magenta: self.led2Color = (255, 0, 255)  # purple

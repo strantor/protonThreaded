@@ -12,7 +12,7 @@ class ioController():
         self.neo1 = neopixel.NeoPixel(board.D18, 1, brightness=1)
         self.neo2 = neopixel.NeoPixel(board.D21, 1, brightness=1)
 
-    def setLED1color(self, color=(158, 91, 33)):
+    def setLED1color(self, color=(255, 110, 0)):
         self.neo1.fill(color)
 
     def setLED2color(self, color=(0, 255, 0)):
