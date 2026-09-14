@@ -29,23 +29,6 @@ sudo mousepad /etc/systemd/system/protonLogger.service
 
 [Unit]
 Description=Datalogger for Proton Laser devices
-After=network.target
-
-[Service]
-ExecStart=/home/proton/protonThreaded/venv/bin/python3 /home/proton/protonThreaded/threadedMain.py
-WorkingDirectory=/home/proton
-StandardOutput=inherit
-StandardError=inherit
-Restart=always
-User=proton
-Environment=WAYLAND_DISPLAY=wayland-1
-Environment=XDG_RUNTIME_DIR=/run/user/1000
-
-[Install]
-WantedBy=multi-user.target
-
-[Unit]
-Description=Datalogger for Proton Laser devices
 After=network.target graphical.target
 
 [Service]
@@ -54,7 +37,7 @@ WorkingDirectory=/home/proton
 StandardOutput=inherit
 StandardError=inherit
 Restart=always
-User=proton
+User=root
 Environment=DISPLAY=:0
 Environment=XAUTHORITY=/home/proton/.Xauthority
 Environment=WAYLAND_DISPLAY=wayland-1
@@ -69,6 +52,16 @@ add: "xhost +local:"
 sudo chmod 0700 /run/user/1000
 
 
+any time you make changes to protonLogger.service:
+sudo systemctl stop protonLogger.service
+sudo systemctl daemon-reload
+sudo systemctl disable protonLogger.service
+sudo systemctl enable protonLogger.service
 sudo systemctl daemon-reload
 sudo systemctl start protonLogger.service
 
+
+[Unit]
+Description=Datalogger for Proton Laser devices
+After=graphical.target display-manager.service
+Wants=graphical.target
