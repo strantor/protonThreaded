@@ -21,6 +21,7 @@ import usbCheck
 import neo
 
 
+
 # The following 17 new lines of code captures all print() commands and prepends a timestamp onto them
 # for assistance in debugging
 old_f = sys.stdout
@@ -298,6 +299,8 @@ class importedGUI(QtWidgets.QMainWindow, myGUI):
         self.led2Color = (0, 0, 0)
         self.blinkTime = time.time() + 0.5
         self.blink = True
+        self.cpuTemp = 0
+        self.secsOverTemp = 0
 
 
 
@@ -523,6 +526,13 @@ class importedGUI(QtWidgets.QMainWindow, myGUI):
             self.csvLogPath = self.usbMountPoint
         else:
             self.csvLogPath = "//home//proton//csvLogs//"
+
+        if self.cpuTemp < 90:
+            self.secsOverTemp = 0
+        else:
+            self.secsOverTemp += 1
+        if self.secsOverTemp > 30:
+            subprocess.run(["sudo", "shutdown", "-h", "now"])
 
 
         # vars2save = {}
@@ -817,8 +827,10 @@ class importedGUI(QtWidgets.QMainWindow, myGUI):
             myNeo = neoObject
         myNeo.setLED1color(led1Color)
         myNeo.setLED2color(led2Color)
+        cpuTemp = myNeo.getCPUTemp()
         outputData.emit(["lineRunning", myNeo.lineRunning.is_pressed])
         outputData.emit(["neoObject", myNeo])
+        outputData.emit(["cpuTemp", cpuTemp])
 
     def neoFn_Result(self, s):
         pass
@@ -833,6 +845,8 @@ class importedGUI(QtWidgets.QMainWindow, myGUI):
             self.neoHasRan = n[1]
         elif n[0] == "lineRunning":
             self.lineRunning = n[1]
+        elif n[0] == "cpuTemp":
+            self.cpuTemp = n[1]
 
     def neoFn_Error(self, error):
         # Reset everything on error

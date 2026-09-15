@@ -23,6 +23,7 @@ git pull origin master
 
 source /home/proton/protonThreaded/venv/bin/activate
 echo "crouton" | sudo -S /home/proton/protonThreaded/venv/bin/python3 /home/proton/protonThreaded/threadedMain.py
+echo "crouton" | sudo -S /home/proton/protonThreaded/venv/bin/python3 /home/proton/protonThreaded/neo.py
 
 
 sudo mousepad /etc/systemd/system/protonLogger.service
