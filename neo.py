@@ -2,7 +2,7 @@
 import time
 import board
 import neopixel
-from gpiozero import Button
+from gpiozero import Button, CPUTemperature
 
 
 class ioController():
@@ -11,6 +11,8 @@ class ioController():
         self.lineRunning = Button(26)
         self.neo1 = neopixel.NeoPixel(board.D18, 1, brightness=1)
         self.neo2 = neopixel.NeoPixel(board.D21, 1, brightness=1)
+        self.cpu = CPUTemperature()
+
 
     def setLED1color(self, color=(255, 110, 0)):
         self.neo1.fill(color)
@@ -18,11 +20,18 @@ class ioController():
     def setLED2color(self, color=(0, 255, 0)):
         self.neo2.fill(color)
 
+    def getCPUtemp(self):
+
+        return self.cpu.temperature
+
 if __name__ == '__main__':
     myController = ioController()
 
     myController.setLED1color()
     myController.setLED2color()
+    for i in range(10):
+        time.sleep(1)
+        print(myController.getCPUtemp())
 
 
 
