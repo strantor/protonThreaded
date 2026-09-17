@@ -669,7 +669,8 @@ class importedGUI(QtWidgets.QMainWindow, myGUI):
         newDict = {}
         newDict["timestamp"] = str(time.strftime('%Y-%m-%d %H:%M:%S'))
         for key, val in self.csvLogDict.items():
-            newDict[key] = val
+            if key != "timestamp":
+                newDict[key] = val
         self.csvLogDict = newDict
         fieldnames = self.csvLogDict.keys()
 
