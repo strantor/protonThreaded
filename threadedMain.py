@@ -827,7 +827,7 @@ class importedGUI(QtWidgets.QMainWindow, myGUI):
             myNeo = neoObject
         myNeo.setLED1color(led1Color)
         myNeo.setLED2color(led2Color)
-        cpuTemp = myNeo.getCPUTemp()
+        cpuTemp = myNeo.getCPUtemp()
         outputData.emit(["lineRunning", myNeo.lineRunning.is_pressed])
         outputData.emit(["neoObject", myNeo])
         outputData.emit(["cpuTemp", cpuTemp])
