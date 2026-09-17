@@ -3,9 +3,9 @@
 [csvLogMaxLineCount::10000]
 [csvLogMaxSize::5] Megabytes
 [slMiniExecute::1]
-[slMiniIP::192.168.2.111]
+[slMiniIP::192.168.1.111]
 [dgkExecute::1]
-[dgkIP::192.168.2.170]
+[dgkIP::192.168.1.170]
 [usbExecute::1]
 [neoExecute::1]
 [serialDeviceExecute::0] Set to 1 to enable serial device
