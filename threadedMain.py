@@ -1122,7 +1122,7 @@ class importedGUI(QtWidgets.QMainWindow, myGUI):
         if time.time() > lastDgkCall:
 
             if connectedToDgk == False:
-                print("not connected to DGK. attempting connection")
+                #print("not connected to DGK. attempting connection")
                 # Now that we are creating the DGK object inside a thread that will terminate and not be reused, we
                 # will lose the myDGK object, along with its tokens, sessions, everything, which would cause us to
                 # have to  re-negotiate a new secure session every time we re-run the function (which is continuously
