@@ -738,12 +738,7 @@ class importedGUI(QtWidgets.QMainWindow, myGUI):
                     self.blink = True
                 self.blinkTime = time.time() + 0.5
 
-            # TODO: 0. print solid critter wheels
-            #       DONE 1. logic for deciding colored lights (self.protonConnected)
-            #       DONE 2. record to CSV only when line running
-            #       3. update lbl_currentlyLogging when line running
-            #       4. start script automatically on boot
-            #       DONE 5. fix csv timestamp to be column #1
+
             led1Red = False
             led1Yellow = False
             led1Green = False
@@ -969,7 +964,8 @@ class importedGUI(QtWidgets.QMainWindow, myGUI):
         if time.time() > lastSlMiniCall:
 
             if connectedToSlMini == False:
-                print("not connected to SL Mini. attempting connection")
+
+                #print("not connected to SL Mini. attempting connection")
                 # Now that we are creating the SL Mini object inside a thread that will terminate and not be reused, we
                 # will lose the mySL Mini object, along with its tokens, sessions, everything, which would cause us to
                 # have to  re-negotiate a new secure session every time we re-run the function (which is continuously
@@ -1011,6 +1007,8 @@ class importedGUI(QtWidgets.QMainWindow, myGUI):
         # information is being relayed to us, followed by the data.
         # print(n)
         if n[0] == "connectedToSlMini":
+            if self.connectedToSlMini == False:
+                print("established connection to SL Mini")
             self.connectedToSlMini = n[1]
         elif n[0] == "slMiniObject":
             self.slMiniObject = n[1]
@@ -1062,9 +1060,11 @@ class importedGUI(QtWidgets.QMainWindow, myGUI):
 
     def slMiniFn_Error(self, error):
         # Reset everything on error
+        if self.connectedToSlMini == True:
+            print("lost connection to SL Mini")
         self.connectedToSlMini = False
         #self.fWebFn_Start()
-        print("Error in slMiniFn!:", error)
+        #print("Error in slMiniFn!:", error)
 
 
 
@@ -1164,6 +1164,8 @@ class importedGUI(QtWidgets.QMainWindow, myGUI):
         # information is being relayed to us, followed by the data.
         # print(n)
         if n[0] == "connectedToDgk":
+            if self.connectedToDgk == False:
+                print("established connection to DGK Laser Micrometer")
             self.connectedToDgk = n[1]
         elif n[0] == "dgkObject":
             self.dgkObject = n[1]
@@ -1214,9 +1216,11 @@ class importedGUI(QtWidgets.QMainWindow, myGUI):
 
     def dgkFn_Error(self, error):
         # Reset everything on error
+        if self.connectedToDgk == True:
+            print("Lost connection to DGK Laser Micrometer")
         self.connectedToDgk = False
         # self.fWebFn_Start()
-        print("Error in dgkFn!:", error)
+        #print("Error in dgkFn!:", error)
 
 
 

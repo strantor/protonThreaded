@@ -44,6 +44,7 @@ class protonModbus():
         self.slMiniLogOptions = []
         self.runs = 0
         self.errors = 0
+        self.isConnected = False
         with open("//home//proton//protonThreaded//logOptions.txt", "r") as restText:
             for line in restText.readlines():
                 L, R = line.split(":")
@@ -341,7 +342,11 @@ if __name__ == "__main__":
     import csv
     from pathlib import Path
 
-    testNo = 2
+    testNo = 3
+    if testNo == 3:
+        mySlMini = protonModbus(ip="192.168.1.2")
+        mySlMini.start()
+
 
     if testNo == 2:
         mySlMini = protonModbus(ip="192.168.50.196")
