@@ -522,16 +522,20 @@ class importedGUI(QtWidgets.QMainWindow, myGUI):
         # Establish logical conditions for operation
         # Only instant operations here (logic state changes, label text changes, etc.), no timed operations or threaded
         # operations, or operations that take time, because this function is called on a timer every 100mS
+        oldLogPath = self.csvLogPath
         if self.usbReady == True:
             self.csvLogPath = self.usbMountPoint
         else:
             self.csvLogPath = "//home//proton//csvLogs//"
+        if self.csvLogPath != oldLogPath:
+            print("new csvLogPath =",self.csvLogPath)
 
         if self.cpuTemp < 90:
             self.secsOverTemp = 0
         else:
             self.secsOverTemp += 1
         if self.secsOverTemp > 30:
+            print("shutting down on overtemp")
             subprocess.run(["sudo", "shutdown", "-h", "now"])
 
 
@@ -840,6 +844,10 @@ class importedGUI(QtWidgets.QMainWindow, myGUI):
         elif n[0] == "neoHasRan":
             self.neoHasRan = n[1]
         elif n[0] == "lineRunning":
+            if (self.lineRunning == True) and (n[0] == False):
+                print("Line stopped")
+            if (self.lineRunning == False) and (n[0] == True):
+                print("Line started")
             self.lineRunning = n[1]
         elif n[0] == "cpuTemp":
             self.cpuTemp = n[1]
@@ -898,6 +906,10 @@ class importedGUI(QtWidgets.QMainWindow, myGUI):
 
     def usbFn_HandleOutputs(self, n):
         if n[0] == "usbReady":
+            if (n[0] == True) and (self.usbReady == False):
+                print("USB inserted")
+            if (n[0] == False) and (self.usbReady == True):
+                print("USB inserted")
             self.usbReady = n[1]
         elif n[0] == "usbObject":
             self.usbObject = n[1]
